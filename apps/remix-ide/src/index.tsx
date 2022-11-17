@@ -8,7 +8,7 @@ import Config from './config'
 import Registry from './app/state/registry'
 import { Storage } from '@remix-project/remix-lib'
 
-(async function () {
+export default function Appsto() {
   try {
     const configStorage = new Storage('config-v0.8:')
     const config = new Config(configStorage);
@@ -17,12 +17,7 @@ import { Storage } from '@remix-project/remix-lib'
   const theme = new ThemeModule()
   theme.initTheme()
 
-  render(
-    <React.StrictMode>
-      <Preload></Preload>
-    </React.StrictMode>,
-    document.getElementById('root')
-  )
-})()
+  return <Preload></Preload>
+}
 
 
