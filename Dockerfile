@@ -1,5 +1,5 @@
 # This dockerfile is to build each branch seperately (for dev purposes)
-FROM node:14
+FROM node:14 as build-stage
 # Create Remix user, don't use root!
 # RUN yes | adduser --disabled-password remix && mkdir /app
 # USER remix
@@ -15,18 +15,8 @@ RUN yarn install
 RUN yarn run build:libs
 RUN nx build
 RUN yarn run build:production
-ENTRYPOINT yarn run serve:production
 
-#FROM nginx:alpine
-#WORKDIR /
-
-#COPY --from=0 /home/remix/build/ /usr/share/nginx/html/build/
-#COPY --from=0 /home/remix/index.html /usr/share/nginx/html/index.html
-#COPY --from=0 /home/remix/nginx.conf /etc/nginx/nginx.conf
-#COPY --from=0 /home/remix/assets/ /usr/share/nginx/html/assets/
-#COPY --from=0 /home/remix/icon.png /usr/share/nginx/html/icon.png
-#COPY --from=0 /home/remix/background.js /usr/share/nginx/html/background.js
-#COPY --from=0 /home/remix/soljson.js /usr/share/nginx/html/soljson.js
-#COPY --from=0 /home/remix/package.json /usr/share/nginx/html/package.json
-
-EXPOSE 8080
+FROM nginx:stable-alpine as production-stage
+COPY --from=build-stage /home/remix/dist/apps/remix-ide /usr/share/nginx/html/
+EXPOSE 80
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
