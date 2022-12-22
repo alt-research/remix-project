@@ -119,7 +119,7 @@ export function Workspace () {
     // @ts-ignore: Object is possibly 'null'.
     const workspaceName = workspaceCreateInput.current.value
     // @ts-ignore: Object is possibly 'null'.
-    const workspaceTemplateName = workspaceCreateTemplateInput.current.value || 'remixDefault'
+    const workspaceTemplateName = workspaceCreateTemplateInput.current.value || 'flashlayerDefault'
     const initGitRepo = initGitRepoRef.current.checked
     const opts = {
       // @ts-ignore: Object is possibly 'null'.
@@ -181,7 +181,7 @@ export function Workspace () {
     } else displayOzCustomRef.current.style.display = 'none'
 
     // @ts-ignore
-    workspaceCreateInput.current.value = `${workspaceCreateTemplateInput.current.value || 'remixDefault'}_${Date.now()}`
+    workspaceCreateInput.current.value = `${workspaceCreateTemplateInput.current.value || 'flashlayerDefault'}_${Date.now()}`
   }
 
   const handleTypingUrl = () => {
@@ -202,7 +202,7 @@ export function Workspace () {
     // @ts-ignore
     workspaceCreateInput.current.value = `${workspaceCreateTemplateInput.current.value + '_upgradeable'}_${Date.now()}`
   }
-  
+
   const toggleBranches = (isOpen: boolean) => {
     setShowBranches(isOpen)
   }
@@ -245,9 +245,9 @@ export function Workspace () {
     return (
       <>
         <label id="selectWsTemplate" className="form-check-label" style={{fontWeight: "bolder"}}>Choose a template</label>
-        <select name="wstemplate" className="mb-3 form-control custom-select" id="wstemplate" defaultValue='remixDefault' ref={workspaceCreateTemplateInput} onChange={updateWsName}>
+        <select name="wstemplate" className="mb-3 form-control custom-select" id="wstemplate" defaultValue='flashlayerDefault' ref={workspaceCreateTemplateInput} onChange={updateWsName}>
           <optgroup style={{fontSize: "medium"}} label="General">
-            <option style={{fontSize: "small"}} value='remixDefault'>Default</option>
+            <option style={{fontSize: "small"}} value='flashlayerDefault'>Default</option>
             <option style={{fontSize: "small"}} value='blank'>Blank</option>
           </optgroup>
           <optgroup style={{fontSize: "medium"}} label="OpenZepplin">
@@ -294,7 +294,7 @@ export function Workspace () {
         </div>
 
         <label id="wsName" className="form-check-label" style={{fontWeight: "bolder"}} >Workspace name</label>
-        <input type="text" data-id="modalDialogCustomPromptTextCreate" defaultValue={`remixDefault_${Date.now()}`} ref={workspaceCreateInput} className="form-control" />
+        <input type="text" data-id="modalDialogCustomPromptTextCreate" defaultValue={`flashlayerDefault_${Date.now()}`} ref={workspaceCreateInput} className="form-control" />
 
         <div className="d-flex py-2 align-items-center custom-control custom-checkbox">
           <input
@@ -315,7 +315,7 @@ export function Workspace () {
             Initialize workspace as a new git repository
           </label>
         </div>
-        {!global.fs.gitConfig.username || !global.fs.gitConfig.email ? 
+        {!global.fs.gitConfig.username || !global.fs.gitConfig.email ?
           (
           <div className='text-warning'>Please add username and email to Remix GitHub Settings to use git features.</div>)
           :<></>
@@ -616,7 +616,7 @@ export function Workspace () {
                           }
                           </Dropdown.Item>
                         ))
-                      }                      
+                      }
                       { ((global.fs.browser.workspaces.length <= 0) || currentWorkspace === NO_WORKSPACE) && <Dropdown.Item onClick={() => { switchWorkspace(NO_WORKSPACE) }}>{ <span className="pl-3">NO_WORKSPACE</span> }</Dropdown.Item> }
                     </Dropdown.Menu>
                   </Dropdown>
@@ -749,7 +749,7 @@ export function Workspace () {
                                 </div>
                               </Dropdown.Item>
                             )
-                          }) : 
+                          }) :
                           <Dropdown.Item onClick={switchToNewBranch}>
                             <div className="pl-1 pr-1" data-id="workspaceGitCreateNewBranch">
                               <i className="fas fa-code-branch pr-2"></i><span>Create branch: { branchFilter } from '{currentBranch}'</span>

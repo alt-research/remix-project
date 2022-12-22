@@ -142,10 +142,10 @@ export const createWorkspace = async (workspaceName: string, workspaceTemplateNa
   return promise
 }
 
-export const createWorkspaceTemplate = async (workspaceName: string, template: WorkspaceTemplate = 'remixDefault') => {
+export const createWorkspaceTemplate = async (workspaceName: string, template: WorkspaceTemplate = 'flashlayerDefault') => {
   if (!workspaceName) throw new Error('workspace name cannot be empty')
   if (checkSpecialChars(workspaceName) || checkSlash(workspaceName)) throw new Error('special characters are not allowed')
-  if (await workspaceExists(workspaceName) && template === 'remixDefault') throw new Error('workspace already exists')
+  if (await workspaceExists(workspaceName) && template === 'flashlayerDefault') throw new Error('workspace already exists')
   else {
     const workspaceProvider = plugin.fileProviders.workspace
 
@@ -160,7 +160,7 @@ export type UrlParametersType = {
   language: string
 }
 
-export const loadWorkspacePreset = async (template: WorkspaceTemplate = 'remixDefault', opts?) => {
+export const loadWorkspacePreset = async (template: WorkspaceTemplate = 'flashlayerDefault', opts?) => {
   const workspaceProvider = plugin.fileProviders.workspace
   const params = queryParams.get() as UrlParametersType
 
@@ -329,7 +329,7 @@ export const switchToWorkspace = async (name: string) => {
   } else if (name === NO_WORKSPACE) {
     // if there is no other workspace, create remix default workspace
     plugin.call('notification', 'toast', `No workspace found! Creating default workspace ....`)
-    await createWorkspace('default_workspace', 'remixDefault')
+    await createWorkspace('default_workspace', 'flashlayerDefault')
   } else {
     const isActive = await plugin.call('manager', 'isActive', 'remixd')
 
