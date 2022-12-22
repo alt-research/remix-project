@@ -23,11 +23,11 @@ const OriginWarning = () => {
     }
   }, [])
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (content) {
       alert({ id: 'warningOriging', title: null, message: content })
     }
-  }, [content])
+  }, [content]) */
 
   return (<></>)
 }
