@@ -37,7 +37,7 @@ function HomeTabGetStarted ({plugin}: HomeTabGetStartedProps) {
     }
     return false;
   }
-  
+
   const handleScroll = (e) => {
     if (isDescendant(carouselRefDiv.current, e.target)) {
       e.stopPropagation()
@@ -84,7 +84,7 @@ function HomeTabGetStarted ({plugin}: HomeTabGetStartedProps) {
             draggable={true}
             showDots={false}
             responsive={
-              { 
+              {
                 superLargeDesktop: {
                   breakpoint: { max: 4000, min: 3000 },
                   items: 5
@@ -110,9 +110,9 @@ function HomeTabGetStarted ({plugin}: HomeTabGetStartedProps) {
               callback={() => createWorkspace("blank")} />
             <WorkspaceTemplate
               gsID="solhintLogo"
-              workspaceTitle="Remix Default"
+              workspaceTitle="Flashlayer Default"
               description="Create a workspace with sample files."
-              callback={() => createWorkspace("remixDefault")} />
+              callback={() => createWorkspace("flashlayerDefault")} />
             <WorkspaceTemplate
               gsID="sourcifyLogo"
               workspaceTitle="OpenZeppelin ERC20"

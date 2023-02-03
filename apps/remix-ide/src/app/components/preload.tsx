@@ -144,8 +144,8 @@ export const Preload = () => {
   return (
     <>
       <div className="preload-container">
-        <div className="preload-logo pb-4">
-          {logo}
+        <div className="preload-logo pb-4 text-center">
+          IDE is loading...
           <div className="info-secondary splash">
             <span className="version"> v{packageJson.version}</span>
           </div>

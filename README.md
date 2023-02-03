@@ -58,10 +58,10 @@ Note: It contains the latest supported version of Solidity available at the time
 ```bash
 yarn global add nx
 ```
-* Clone the GitHub repository (`wget` need to be installed first):
+* Switch to `flashlayer` branch (master contains code from official remix-project repo):
 
 ```bash
-git clone https://github.com/ethereum/remix-project.git
+git checkout flashlayer
 ```
 * Build `remix-project`:
 ```bash
