@@ -1,12 +1,27 @@
-import React from "react" // eslint-disable-line
-// import { erc20 } from '../core'
+import React, { useRef } from "react" // eslint-disable-line
+import { erc20 } from '../core/src/index'
+import './main.css'
+import { SaveData } from "./types/wizard"
 
-const WizardUI = () => {
+
+interface WizardUIProps {
+  onSave: (data: SaveData) => void
+}
+
+const WizardUI = ({ onSave }: WizardUIProps) => {
+  const nameRef = useRef<HTMLInputElement>(null)
+
   const generate = () => {
-    // const contract = erc20.print()
+    const name = nameRef.current.value
+    const contract = erc20.print({
+      name: name,
+      symbol: ""
+    })
 
-    // console.log(contract);
-
+    onSave({
+      name,
+      data: contract
+    })
   }
 
   return (<div>
@@ -15,21 +30,16 @@ const WizardUI = () => {
 
     <div className="grid grid-cols-[2fr,1fr] gap-2">
       <label className="labeled-input">
-        <span>Name</span>
-        <input  />
-      </label>
-
-      <label className="labeled-input">
-        <span>Symbol</span>
-        <input />
+        <span>File Name</span>
+        <input name="name" ref={nameRef} />
       </label>
     </div>
 
     <label className="labeled-input">
       <span className="flex justify-between pr-2">
-        Premint
+        Generate
       </span>
-      <input type='button' name='test' value='Generate' onClick={generate} />
+      <input className='generateBtn' type='button' name='test' value='Generate' onClick={generate} />
     </label>
     </section>
   </div>)

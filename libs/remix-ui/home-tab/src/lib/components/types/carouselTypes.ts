@@ -64,6 +64,11 @@ export interface CarouselProps {
   rtl?: boolean;
 }
 
+export interface SaveData {
+  name: string
+  data: string
+}
+
 export type StateCallBack = CarouselInternalState;
 
 export type Direction = "left" | "right" | "" | undefined;

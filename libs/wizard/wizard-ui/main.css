@@ -1,0 +1,16 @@
+.generateBtn {
+  position: relative;
+  box-sizing: border-box;
+  margin-left: 20px;
+
+  width: 140px;
+  height: 40px;
+
+  color: #fff;
+  font-size: 16px;
+  font-weight: 900;
+  font-family: 'Courier New', Courier, monospace;
+  background: transparent;
+  border: solid 1px white;
+  border-radius: 8px;
+}

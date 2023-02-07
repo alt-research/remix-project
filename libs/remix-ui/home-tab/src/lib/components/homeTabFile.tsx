@@ -3,6 +3,7 @@ import React, { useState, useRef, useReducer } from 'react'
 import { ModalDialog } from '@remix-ui/modal-dialog' // eslint-disable-line
 import { Toaster } from '@remix-ui/toaster' // eslint-disable-line
 import WizardUI from '../../../../../wizard/wizard-ui/WizardUI'
+import { SaveData } from './types/carouselTypes'
 
 const _paq = window._paq = window._paq || [] // eslint-disable-line
 
@@ -96,6 +97,7 @@ function HomeTabFile ({plugin}: HomeTabFileProps) {
 
   const uploadFile = async (target) => {
     _paq.push(['trackEvent', 'hometab', 'filesSection', 'uploadFile'])
+
     await plugin.call('filePanel', 'uploadFile', target)
   }
 
@@ -109,14 +111,26 @@ function HomeTabFile ({plugin}: HomeTabFileProps) {
     plugin.verticalIcons.select('filePanel')
   }
 
-  const generateFiles = (title: string) => {
+  const saveAsFile = (data: SaveData) => {
+    const files = new File([data?.data], `${data?.name}.sol`, {
+      type: 'text/plain',
+    })
+
+    plugin.verticalIcons.select('filePanel')
+    uploadFile({
+      files: [files]
+    })
+  }
+
+  const generateFiles = async (title: string) => {
+
     setGenerate(prevState => {
       return {
         ...prevState,
         showModalDialog: true,
         modalInfo: {
           title: title,
-          child: <WizardUI />,
+          child: <WizardUI onSave={data => saveAsFile(data)} />,
         }
       }
     })
@@ -174,7 +188,7 @@ function HomeTabFile ({plugin}: HomeTabFileProps) {
       <ModalDialog
         id='homeTab'
         title={generate.modalInfo.title }
-        okLabel='Generate'
+        okLabel='Close'
         hide={ !generate.showModalDialog }
         handleHide={ () => {
           setGenerate(prevState => {
