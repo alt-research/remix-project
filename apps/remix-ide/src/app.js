@@ -41,6 +41,7 @@ const remixLib = require('@remix-project/remix-lib')
 
 import { QueryParams } from '@remix-project/remix-lib'
 import { SearchPlugin } from './app/tabs/search'
+import { GenerateTab } from './app/tabs/generate-tab'
 
 const Storage = remixLib.Storage
 const RemixDProvider = require('./app/files/remixDProvider')
@@ -169,6 +170,9 @@ class AppComponent {
     //----- search
     const search = new SearchPlugin()
 
+    //----- Generate
+    const generate = new GenerateTab()
+
     // ----------------- import content service ------------------------
     const contentImport = new CompilerImports()
 
@@ -260,7 +264,7 @@ class AppComponent {
       injected0ptimismProvider,
       injectedArbitrumOneProvider,
       this.walkthroughService,
-      search
+      search,
     ])
 
     // LAYOUT & SYSTEM VIEWS
@@ -299,7 +303,8 @@ class AppComponent {
       this.sidePanel,
       filePanel,
       pluginManagerComponent,
-      this.settings
+      this.settings,
+      generate,
     ])
 
     // CONTENT VIEWS & DEFAULT PLUGINS
@@ -376,6 +381,7 @@ class AppComponent {
     await this.appManager.activatePlugin(['settings', 'config'])
     await this.appManager.activatePlugin(['hiddenPanel', 'pluginManager', 'codeParser', 'codeFormatter', 'fileDecorator', 'terminal', 'blockchain', 'fetchAndCompile', 'contentImport', 'gistHandler'])
     await this.appManager.activatePlugin(['settings'])
+    await this.appManager.activatePlugin(['generate'])
     await this.appManager.activatePlugin(['storage', 'search', 'compileAndRun', 'recorder'])
 
     this.appManager.on(

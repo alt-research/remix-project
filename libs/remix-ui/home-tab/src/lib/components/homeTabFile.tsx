@@ -2,10 +2,20 @@
 import React, { useState, useRef, useReducer } from 'react'
 import { ModalDialog } from '@remix-ui/modal-dialog' // eslint-disable-line
 import { Toaster } from '@remix-ui/toaster' // eslint-disable-line
+import WizardUI from '../../../../../wizard/wizard-ui/WizardUI'
+
 const _paq = window._paq = window._paq || [] // eslint-disable-line
 
 interface  HomeTabFileProps {
   plugin: any
+}
+
+interface GenerateModalProps {
+  showModalDialog: boolean
+  modalInfo: {
+    title: string,
+    child: JSX.Element
+  }
 }
 
 const loadingInitialState = {
@@ -19,6 +29,13 @@ const loadingReducer = (state = loadingInitialState, action) => {
 }
 
 function HomeTabFile ({plugin}: HomeTabFileProps) {
+  const [generate, setGenerate] = useState<GenerateModalProps>({
+    showModalDialog: false,
+    modalInfo: {
+      title: '',
+      child: null,
+    }
+  })
   const [state, setState] = useState<{
     searchInput: string,
     showModalDialog: boolean,
@@ -53,7 +70,7 @@ function HomeTabFile ({plugin}: HomeTabFileProps) {
             else {
               workspace.addExternal(type + '/' + cleanUrl, content, url)
               plugin.call('menuicons', 'select', 'filePanel')
-            }   
+            }
           } catch (e) {
             toast(e.message)
           }
@@ -90,6 +107,19 @@ function HomeTabFile ({plugin}: HomeTabFileProps) {
     _paq.push(['trackEvent', 'hometab', 'filesSection', 'importFromGist'])
     plugin.call('gistHandler', 'load', '')
     plugin.verticalIcons.select('filePanel')
+  }
+
+  const generateFiles = (title: string) => {
+    setGenerate(prevState => {
+      return {
+        ...prevState,
+        showModalDialog: true,
+        modalInfo: {
+          title: title,
+          child: <WizardUI />,
+        }
+      }
+    })
   }
 
   const showFullMessage = (title: string, loadItem: string, examples: Array<string>) => {
@@ -141,10 +171,25 @@ function HomeTabFile ({plugin}: HomeTabFileProps) {
           />
         </div>
       </ModalDialog>
+      <ModalDialog
+        id='homeTab'
+        title={generate.modalInfo.title }
+        okLabel='Generate'
+        hide={ !generate.showModalDialog }
+        handleHide={ () => {
+          setGenerate(prevState => {
+            return { ...prevState, showModalDialog: false }
+          })
+        } }
+        okFn={ () => {} }
+      >
+        {generate?.modalInfo?.child}
+      </ModalDialog>
       <Toaster message={state.toasterMsg} />
       <div className="justify-content-start mt-1 p-2 border-bottom d-flex flex-column" id="hTFileSection">
         <label style={{fontSize: "1rem"}}>Files</label>
         <button className="btn btn-primary p-2 border my-1" data-id="homeTabNewFile" style={{width: 'fit-content'}} onClick={() => createNewFile()}>New File</button>
+        <button className="btn btn-primary p-2 border my-1" style={{width: 'fit-content'}} onClick={() => generateFiles('Generate Contracts')}>Generate Contracts</button>
         <label className="btn p-2 border my-1" style={{width: 'fit-content'}} htmlFor="openFileInput">Open File</label>
         <input title="open file" type="file" id="openFileInput" onChange={(event) => {
           event.stopPropagation()
@@ -156,7 +201,7 @@ function HomeTabFile ({plugin}: HomeTabFileProps) {
         <div className="d-flex">
           <button className="btn p-2 border mr-2" data-id="landingPageImportFromGitHubButton" onClick={() => showFullMessage('GitHub', 'github URL', ['https://github.com/0xcert/ethereum-erc721/src/contracts/tokens/nf-token-metadata.sol', 'https://github.com/OpenZeppelin/openzeppelin-solidity/blob/67bca857eedf99bf44a4b6a0fc5b5ed553135316/contracts/access/Roles.sol'])}>GitHub</button>
           <button className="btn p-2 border mr-2" data-id="landingPageImportFromGistButton" onClick={() => importFromGist()}>Gist</button>
-          <button className="btn p-2 border mr-2" onClick={() => showFullMessage('Ipfs', 'ipfs URL', ['ipfs://<ipfs-hash>'])}>IPFS</button> 
+          <button className="btn p-2 border mr-2" onClick={() => showFullMessage('Ipfs', 'ipfs URL', ['ipfs://<ipfs-hash>'])}>IPFS</button>
           <button className="btn p-2 border" onClick={() => showFullMessage('Https', 'http/https raw content', ['https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/master/contracts/token/ERC20/ERC20.sol'])}>HTTPS</button>
         </div>
       </div>
